@@ -1,0 +1,83 @@
+{
+  "@@locale": "es",
+  "appTitle": "Control de Facturas",
+
+  "cancelButton": "Cancelar",
+  "saveButton": "Guardar",
+  "deleteButton": "Eliminar",
+  "errorGeneric": "Ocurrió un error. Intenta de nuevo.",
+
+  "loginTitle": "Iniciar sesión",
+  "emailLabel": "Correo electrónico",
+  "passwordLabel": "Contraseña",
+  "loginButton": "Entrar",
+  "emailRequired": "Ingresa el correo electrónico",
+  "passwordRequired": "Ingresa la contraseña",
+  "loginError": "Correo o contraseña inválidos",
+
+  "homeTitle": "Control de Facturas",
+  "entradaLabel": "Entrada",
+  "saidaLabel": "Salida",
+  "differenceLabel": "Diferencia",
+  "addEntradaButton": "Entrada",
+  "addSaidaButton": "Salida",
+  "viewAllButton": "Ver todo",
+  "noInvoicesForMonth": "No hay facturas en este mes",
+  "webBannerDaysLeft": "Faltan 3 días para el vencimiento de las facturas del mes anterior",
+  "webBannerTomorrow": "Mañana es el último día para regularizar las facturas del mes anterior",
+  "webBannerToday": "Hoy es el último día para ajustar las facturas del mes anterior",
+
+  "newEntradaTitle": "Nueva entrada",
+  "newSaidaTitle": "Nueva salida",
+  "editInvoiceTitle": "Editar factura",
+  "amountLabel": "Valor",
+  "amountRequired": "Ingresa el valor",
+  "amountInvalid": "Valor inválido",
+  "dateLabel": "Fecha",
+  "descriptionLabel": "Descripción",
+  "descriptionHint": "Nombre de la empresa o persona",
+  "descriptionRequired": "Ingresa una descripción",
+  "photoLabel": "Foto",
+  "addPhotoButton": "Agregar foto",
+  "changePhotoButton": "Cambiar foto",
+  "removePhotoButton": "Quitar foto",
+  "takePhotoOption": "Cámara",
+  "pickFromGalleryOption": "Galería",
+  "deleteConfirmTitle": "¿Eliminar factura?",
+  "deleteConfirmMessage": "Esta acción no se puede deshacer.",
+
+  "allInvoicesTitle": "Facturas de {month}",
+  "@allInvoicesTitle": {
+    "placeholders": {
+      "month": {"type": "String"}
+    }
+  },
+
+  "settingsTitle": "Configuración",
+  "dueDayLabel": "Día de vencimiento",
+  "dueDayHelper": "Día del mes límite para regularizar las facturas del mes anterior",
+  "languageLabel": "Idioma",
+  "portugueseOption": "Português",
+  "spanishOption": "Español",
+  "logoutButton": "Cerrar sesión",
+  "adminShortcut": "Administración",
+
+  "adminTitle": "Administración",
+  "usersListTitle": "Usuarios",
+  "createUserButton": "Crear usuario",
+  "removeUserButton": "Eliminar",
+  "removeUserConfirmTitle": "¿Eliminar usuario?",
+  "removeUserConfirmMessage": "Esta acción no se puede deshacer.",
+  "newUserEmailLabel": "Correo del nuevo usuario",
+  "newUserPasswordLabel": "Contraseña temporal",
+  "createButton": "Crear",
+  "cannotRemoveSelf": "No puedes eliminar tu propia cuenta",
+  "adminBadge": "Admin",
+
+  "notificationDueSoonTitle": "Vencimiento se acerca",
+  "notificationDueSoonBody": "Faltan 3 días para el vencimiento de las facturas del mes anterior",
+  "notificationDueTomorrowTitle": "Último día es mañana",
+  "notificationDueTomorrowBody": "Mañana es el último día para regularizar las facturas del mes anterior",
+  "notificationDueTodayTitle": "Último día es hoy",
+  "notificationDueTodayBody": "Hoy es el último día para ajustar las facturas del mes anterior"
+}
