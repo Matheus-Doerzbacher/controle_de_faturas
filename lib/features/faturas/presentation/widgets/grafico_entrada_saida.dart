@@ -30,6 +30,8 @@ class GraficoEntradaSaida extends StatelessWidget {
         SizedBox(
           height: 180,
           child: BarChart(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeOutCubic,
             BarChartData(
               maxY: maiorValor * 1.25,
               alignment: BarChartAlignment.spaceAround,
@@ -102,6 +104,11 @@ class GraficoEntradaSaida extends StatelessWidget {
         Text(
           '${textos.differenceLabel}: ${FormatadorMoeda.formatar(totais.diferenca)}',
           style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          '${textos.ivaLabel}: ${FormatadorMoeda.formatar(totais.iva)}',
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );

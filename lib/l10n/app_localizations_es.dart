@@ -57,6 +57,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get differenceLabel => 'Diferencia';
 
   @override
+  String get ivaLabel => 'Total de IVA (10%)';
+
+  @override
   String get addEntradaButton => 'Entrada';
 
   @override
@@ -217,4 +220,27 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get notificationDueTodayBody =>
       'Hoy es el último día para ajustar las facturas del mes anterior';
+
+  @override
+  String get changePasswordTitle => 'Cambiar contraseña';
+
+  @override
+  String get changePasswordMenuLabel => 'Cambiar contraseña';
+
+  @override
+  String get mandatoryPasswordChangeMessage =>
+      'Por seguridad, definí una nueva contraseña antes de continuar.';
+
+  @override
+  String get newPasswordLabel => 'Nueva contraseña';
+
+  @override
+  String get confirmPasswordLabel => 'Confirmar contraseña';
+
+  @override
+  String get passwordTooShort =>
+      'La contraseña debe tener al menos 6 caracteres';
+
+  @override
+  String get passwordMismatch => 'Las contraseñas no coinciden';
 }

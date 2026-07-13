@@ -23,9 +23,9 @@ void main() {
       envolverComApp(const GraficoEntradaSaida(totais: totais)),
     );
 
-    expect(find.textContaining('₲ 500.000'), findsOneWidget);
-    expect(find.textContaining('₲ 200.000'), findsOneWidget);
-    expect(find.textContaining('₲ 300.000'), findsOneWidget);
+    expect(find.textContaining('Gs. 500.000'), findsOneWidget);
+    expect(find.textContaining('Gs. 200.000'), findsOneWidget);
+    expect(find.textContaining('Gs. 300.000'), findsOneWidget);
   });
 
   testWidgets('funciona com totais zerados sem lançar erro', (tester) async {

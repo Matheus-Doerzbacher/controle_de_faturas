@@ -45,20 +45,47 @@ class TelaInicial extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               children: [
                 const BannerLembreteWeb(),
-                const SeletorMes(),
-                const SizedBox(height: 16),
-                totaisAsync.when(
-                  data: (totais) => GraficoEntradaSaida(totais: totais),
-                  loading: () => const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 48),
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
-                  error: (erro, _) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 48),
-                    child: Center(child: Text(textos.errorGeneric)),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
+                    child: Column(
+                      children: [
+                        const SeletorMes(),
+                        const SizedBox(height: 12),
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 250),
+                          // skipLoadingOn* em false: ao trocar de mês
+                          // queremos sempre o spinner, nunca os valores do
+                          // mês anterior piscando até a busca nova terminar
+                          // (comportamento padrão do Riverpod é o oposto,
+                          // pensado pra telas onde o dado "atualiza",
+                          // não pra quando o dado é de outro período).
+                          child: totaisAsync.when(
+                            skipLoadingOnReload: false,
+                            skipLoadingOnRefresh: false,
+                            data: (totais) => GraficoEntradaSaida(
+                              key: const ValueKey('grafico'),
+                              totais: totais,
+                            ),
+                            loading: () => const Padding(
+                              key: ValueKey('carregando'),
+                              padding: EdgeInsets.symmetric(vertical: 48),
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                            error: (erro, _) => Padding(
+                              key: const ValueKey('erro'),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 48,
+                              ),
+                              child: Center(child: Text(textos.errorGeneric)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(

@@ -7,9 +7,14 @@ mensais no Paraguai, com backend em Supabase.
 
 1. Crie o projeto em [supabase.com](https://supabase.com) (sugestão de
    região: `sa-east-1`).
-2. Em **Authentication → Providers → Email**, desative "Allow new users to
-   sign up" — o app não tem cadastro público, contas são criadas só pelo
-   admin (dentro do app, na tela Admin).
+2. Em **Authentication**, procure a opção de desativar cadastro público
+   (algo como "Allow new users to sign up" — a Supabase reorganiza essas
+   telas com frequência; hoje costuma ficar em **Authentication → Sign In /
+   Up**, não dentro do provedor "Email"). O app não tem cadastro próprio,
+   contas são criadas só pelo admin (dentro do app, na tela Admin). Se não
+   achar o toggle, não é bloqueante: quem se cadastrar sozinho cai como
+   usuário comum (`administrador = false`) e a RLS já isola os dados dele
+   dos seus — é só uma conta indesejada, não uma brecha de segurança.
 3. Aplique a migration em `supabase/migrations/`:
    ```
    supabase link --project-ref SEU_PROJECT_REF

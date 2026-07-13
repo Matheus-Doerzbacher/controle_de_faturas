@@ -194,6 +194,12 @@ abstract class AppLocalizations {
   /// **'Diferencia'**
   String get differenceLabel;
 
+  /// No description provided for @ivaLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Total de IVA (10%)'**
+  String get ivaLabel;
+
   /// No description provided for @addEntradaButton.
   ///
   /// In es, this message translates to:
@@ -499,6 +505,48 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Hoy es el último día para ajustar las facturas del mes anterior'**
   String get notificationDueTodayBody;
+
+  /// No description provided for @changePasswordTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar contraseña'**
+  String get changePasswordTitle;
+
+  /// No description provided for @changePasswordMenuLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar contraseña'**
+  String get changePasswordMenuLabel;
+
+  /// No description provided for @mandatoryPasswordChangeMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Por seguridad, definí una nueva contraseña antes de continuar.'**
+  String get mandatoryPasswordChangeMessage;
+
+  /// No description provided for @newPasswordLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Nueva contraseña'**
+  String get newPasswordLabel;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar contraseña'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @passwordTooShort.
+  ///
+  /// In es, this message translates to:
+  /// **'La contraseña debe tener al menos 6 caracteres'**
+  String get passwordTooShort;
+
+  /// No description provided for @passwordMismatch.
+  ///
+  /// In es, this message translates to:
+  /// **'Las contraseñas no coinciden'**
+  String get passwordMismatch;
 }
 
 class _AppLocalizationsDelegate

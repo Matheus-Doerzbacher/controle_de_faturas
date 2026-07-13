@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/tema_app.dart';
+import '../../../core/utils/formatador_moeda.dart';
+import '../../../core/utils/seletor_data.dart';
 import '../../../l10n/app_localizations.dart';
 import '../application/faturas_do_mes_provider.dart';
 import '../domain/fatura.dart';
@@ -42,7 +44,9 @@ class _TelaFormularioFaturaState extends ConsumerState<TelaFormularioFatura> {
     super.initState();
     final fatura = widget.faturaExistente;
     _controladorValor = TextEditingController(
-      text: fatura?.valor.toString() ?? '',
+      text: fatura != null
+          ? FormatadorMoeda.agruparMilhares(fatura.valor.toString())
+          : '',
     );
     _controladorDescricao = TextEditingController(text: fatura?.descricao ?? '');
     _dataSelecionada = fatura?.dataFatura ?? DateTime.now();
@@ -56,11 +60,11 @@ class _TelaFormularioFaturaState extends ConsumerState<TelaFormularioFatura> {
   }
 
   Future<void> _escolherData() async {
-    final selecionada = await showDatePicker(
+    final selecionada = await escolherData(
       context: context,
-      initialDate: _dataSelecionada,
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
+      dataInicial: _dataSelecionada,
+      primeiraData: DateTime(2020),
+      ultimaData: DateTime.now(),
     );
     if (selecionada != null) {
       setState(() => _dataSelecionada = selecionada);
@@ -75,7 +79,7 @@ class _TelaFormularioFaturaState extends ConsumerState<TelaFormularioFatura> {
 
     try {
       final repositorio = ref.read(repositorioFaturasProvider);
-      final valor = int.parse(_controladorValor.text);
+      final valor = int.parse(_controladorValor.text.replaceAll('.', ''));
 
       if (widget.ehEdicao) {
         await repositorio.atualizar(
@@ -180,46 +184,78 @@ class _TelaFormularioFaturaState extends ConsumerState<TelaFormularioFatura> {
               child: ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  TextFormField(
-                    controller: _controladorValor,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    decoration: InputDecoration(
-                      labelText: textos.amountLabel,
-                      prefixText: '₲ ',
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _controladorValor,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [MascaraValorGuarani()],
+                            decoration: InputDecoration(
+                              labelText: textos.amountLabel,
+                              prefixText: 'Gs. ',
+                              prefixIcon: const Icon(
+                                Icons.payments_outlined,
+                              ),
+                            ),
+                            validator: (valor) {
+                              if (valor == null || valor.isEmpty) {
+                                return textos.amountRequired;
+                              }
+                              final numero = int.tryParse(
+                                valor.replaceAll('.', ''),
+                              );
+                              if (numero == null || numero <= 0) {
+                                return textos.amountInvalid;
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          InkWell(
+                            borderRadius: BorderRadius.circular(12),
+                            onTap: _escolherData,
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                labelText: textos.dateLabel,
+                                prefixIcon: const Icon(
+                                  Icons.calendar_today_outlined,
+                                ),
+                                suffixIcon: const Icon(
+                                  Icons.arrow_drop_down,
+                                ),
+                              ),
+                              child: Text(_formatarData(_dataSelecionada)),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _controladorDescricao,
+                            decoration: InputDecoration(
+                              labelText: textos.descriptionLabel,
+                              hintText: textos.descriptionHint,
+                              prefixIcon: const Icon(
+                                Icons.description_outlined,
+                              ),
+                            ),
+                            validator: (valor) =>
+                                (valor == null || valor.trim().isEmpty)
+                                ? textos.descriptionRequired
+                                : null,
+                          ),
+                        ],
+                      ),
                     ),
-                    validator: (valor) {
-                      if (valor == null || valor.isEmpty) {
-                        return textos.amountRequired;
-                      }
-                      final numero = int.tryParse(valor);
-                      if (numero == null || numero <= 0) {
-                        return textos.amountInvalid;
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 16),
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(textos.dateLabel),
-                    subtitle: Text(_formatarData(_dataSelecionada)),
-                    trailing: const Icon(Icons.calendar_today_outlined),
-                    onTap: _escolherData,
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _controladorDescricao,
-                    decoration: InputDecoration(
-                      labelText: textos.descriptionLabel,
-                      hintText: textos.descriptionHint,
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: _construirSecaoFoto(context),
                     ),
-                    validator: (valor) => (valor == null || valor.trim().isEmpty)
-                        ? textos.descriptionRequired
-                        : null,
                   ),
-                  const SizedBox(height: 16),
-                  _construirSecaoFoto(context),
                   const SizedBox(height: 24),
                   FilledButton(
                     onPressed: _salvando ? null : _salvar,

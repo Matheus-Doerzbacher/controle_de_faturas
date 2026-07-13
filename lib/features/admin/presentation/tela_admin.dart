@@ -74,32 +74,49 @@ class TelaAdmin extends ConsumerWidget {
             constraints: const BoxConstraints(
               maxWidth: TemaApp.larguraMaximaConteudo,
             ),
-            child: usuariosAsync.when(
-              data: (usuarios) => ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemCount: usuarios.length,
-                separatorBuilder: (context, index) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final usuario = usuarios[index];
-                  final ehVoceMesmo = usuario.id == usuarioAtualId;
-                  return ListTile(
-                    leading: const Icon(Icons.person_outline),
-                    title: Text(usuario.email),
-                    trailing: ehVoceMesmo
-                        ? Tooltip(
-                            message: textos.cannotRemoveSelf,
-                            child: const Icon(Icons.lock_outline),
-                          )
-                        : IconButton(
-                            icon: const Icon(Icons.delete_outline),
-                            onPressed: () =>
-                                _confirmarRemocao(context, ref, usuario),
-                          ),
-                  );
-                },
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: usuariosAsync.when(
+                  data: (usuarios) => Card(
+                    key: const ValueKey('lista'),
+                    clipBehavior: Clip.antiAlias,
+                    child: ListView.separated(
+                      padding: EdgeInsets.zero,
+                      itemCount: usuarios.length,
+                      separatorBuilder: (context, index) =>
+                          const Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final usuario = usuarios[index];
+                        final ehVoceMesmo = usuario.id == usuarioAtualId;
+                        return ListTile(
+                          leading: const Icon(Icons.person_outline),
+                          title: Text(usuario.email),
+                          trailing: ehVoceMesmo
+                              ? Tooltip(
+                                  message: textos.cannotRemoveSelf,
+                                  child: const Icon(Icons.lock_outline),
+                                )
+                              : IconButton(
+                                  icon: const Icon(Icons.delete_outline),
+                                  onPressed: () =>
+                                      _confirmarRemocao(context, ref, usuario),
+                                ),
+                        );
+                      },
+                    ),
+                  ),
+                  loading: () => const Center(
+                    key: ValueKey('carregando'),
+                    child: CircularProgressIndicator(),
+                  ),
+                  error: (erro, _) => Center(
+                    key: const ValueKey('erro'),
+                    child: Text(textos.errorGeneric),
+                  ),
+                ),
               ),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (erro, _) => Center(child: Text(textos.errorGeneric)),
             ),
           ),
         ),

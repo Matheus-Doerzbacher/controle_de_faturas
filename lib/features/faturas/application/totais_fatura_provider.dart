@@ -11,6 +11,9 @@ class TotaisFatura {
   final int saida;
 
   int get diferenca => entrada - saida;
+
+  /// 10% sobre o lucro (diferença positiva). Sem lucro, não há imposto.
+  int get iva => diferenca > 0 ? (diferenca * 0.10).round() : 0;
 }
 
 /// Deriva os totais de entrada/saída do mês selecionado a partir de

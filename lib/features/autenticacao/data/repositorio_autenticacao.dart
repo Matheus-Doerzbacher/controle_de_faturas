@@ -17,6 +17,10 @@ class RepositorioAutenticacao {
   Future<void> sair() {
     return _client.auth.signOut();
   }
+
+  Future<void> atualizarSenha(String novaSenha) {
+    return _client.auth.updateUser(UserAttributes(password: novaSenha));
+  }
 }
 
 final repositorioAutenticacaoProvider = Provider<RepositorioAutenticacao>((

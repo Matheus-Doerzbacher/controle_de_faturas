@@ -68,74 +68,115 @@ class TelaConfiguracoes extends ConsumerWidget {
                 return ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    Text(
-                      textos.dueDayLabel,
-                      style: Theme.of(context).textTheme.labelLarge,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      textos.dueDayHelper,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 8),
-                    DropdownButtonFormField<int>(
-                      initialValue: perfil.diaVencimento,
-                      items: [
-                        for (
-                          var dia = _diaVencimentoMinimo;
-                          dia <= _diaVencimentoMaximo;
-                          dia++
-                        )
-                          DropdownMenuItem(value: dia, child: Text('$dia')),
-                      ],
-                      onChanged: (novoDia) {
-                        if (novoDia != null) {
-                          _mudarDiaVencimento(ref, novoDia);
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 24),
-                    Text(
-                      textos.languageLabel,
-                      style: Theme.of(context).textTheme.labelLarge,
-                    ),
-                    const SizedBox(height: 8),
-                    SegmentedButton<String>(
-                      segments: [
-                        ButtonSegment(
-                          value: 'pt',
-                          label: Text(textos.portugueseOption),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              textos.dueDayLabel,
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              textos.dueDayHelper,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            const SizedBox(height: 12),
+                            DropdownButtonFormField<int>(
+                              initialValue: perfil.diaVencimento,
+                              items: [
+                                for (
+                                  var dia = _diaVencimentoMinimo;
+                                  dia <= _diaVencimentoMaximo;
+                                  dia++
+                                )
+                                  DropdownMenuItem(
+                                    value: dia,
+                                    child: Text('$dia'),
+                                  ),
+                              ],
+                              onChanged: (novoDia) {
+                                if (novoDia != null) {
+                                  _mudarDiaVencimento(ref, novoDia);
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 24),
+                            Text(
+                              textos.languageLabel,
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            const SizedBox(height: 12),
+                            SegmentedButton<String>(
+                              segments: [
+                                ButtonSegment(
+                                  value: 'pt',
+                                  label: Text(textos.portugueseOption),
+                                ),
+                                ButtonSegment(
+                                  value: 'es',
+                                  label: Text(textos.spanishOption),
+                                ),
+                              ],
+                              selected: {idiomaAtual},
+                              onSelectionChanged: (selecionados) =>
+                                  _mudarIdioma(ref, selecionados.first),
+                            ),
+                          ],
                         ),
-                        ButtonSegment(
-                          value: 'es',
-                          label: Text(textos.spanishOption),
-                        ),
-                      ],
-                      selected: {idiomaAtual},
-                      onSelectionChanged: (selecionados) =>
-                          _mudarIdioma(ref, selecionados.first),
-                    ),
-                    const SizedBox(height: 32),
-                    if (perfil.administrador)
-                      ListTile(
-                        leading: const Icon(
-                          Icons.admin_panel_settings_outlined,
-                        ),
-                        title: Text(textos.adminShortcut),
-                        onTap: () => context.push('/admin'),
                       ),
-                    const Divider(),
-                    ListTile(
-                      leading: const Icon(Icons.logout),
-                      title: Text(textos.logoutButton),
-                      onTap: () =>
-                          ref.read(repositorioAutenticacaoProvider).sair(),
+                    ),
+                    const SizedBox(height: 16),
+                    Card(
+                      clipBehavior: Clip.antiAlias,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.lock_outline),
+                            title: Text(textos.changePasswordMenuLabel),
+                            onTap: () => context.push('/trocar-senha'),
+                          ),
+                          if (perfil.administrador)
+                            ListTile(
+                              leading: const Icon(
+                                Icons.admin_panel_settings_outlined,
+                              ),
+                              title: Text(textos.adminShortcut),
+                              onTap: () => context.push('/admin'),
+                            ),
+                          ListTile(
+                            leading: const Icon(Icons.logout),
+                            title: Text(textos.logoutButton),
+                            onTap: () => ref
+                                .read(repositorioAutenticacaoProvider)
+                                .sair(),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (erro, _) => Center(child: Text(textos.errorGeneric)),
+              error: (erro, _) => Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(textos.errorGeneric),
+                    const SizedBox(height: 16),
+                    // Se o perfil não carrega, o resto da tela também não
+                    // dá — sem isto, não haveria como sair e tentar de novo.
+                    OutlinedButton.icon(
+                      onPressed: () =>
+                          ref.read(repositorioAutenticacaoProvider).sair(),
+                      icon: const Icon(Icons.logout),
+                      label: Text(textos.logoutButton),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

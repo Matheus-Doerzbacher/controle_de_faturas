@@ -40,4 +40,12 @@ class RepositorioPerfil {
         .single();
     return PerfilUsuario.fromJson(linha);
   }
+
+  Future<void> marcarSenhaAlterada() async {
+    final usuarioId = _client.auth.currentUser!.id;
+    await _client
+        .from(_tabela)
+        .update({'deve_trocar_senha': false})
+        .eq('id', usuarioId);
+  }
 }

@@ -31,30 +31,86 @@ class TelaListaFaturas extends ConsumerWidget {
             constraints: const BoxConstraints(
               maxWidth: TemaApp.larguraMaximaConteudo,
             ),
-            child: faturasAsync.when(
-              data: (faturas) {
-                if (faturas.isEmpty) {
-                  return Center(child: Text(textos.noInvoicesForMonth));
-                }
-                return ListView.separated(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  itemCount: faturas.length,
-                  separatorBuilder: (context, index) => const Divider(height: 1),
-                  itemBuilder: (context, index) {
-                    final fatura = faturas[index];
-                    return ItemListaFatura(
-                      fatura: fatura,
-                      aoTocar: () =>
-                          context.push('/faturas/editar', extra: fatura),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                // Ver comentário equivalente em tela_inicial.dart: sempre
+                // mostrar o carregando ao trocar de mês, nunca a lista do
+                // mês anterior parada.
+                child: faturasAsync.when(
+                  skipLoadingOnReload: false,
+                  skipLoadingOnRefresh: false,
+                  data: (faturas) {
+                    if (faturas.isEmpty) {
+                      return _EstadoVazio(
+                        key: const ValueKey('vazio'),
+                        mensagem: textos.noInvoicesForMonth,
+                      );
+                    }
+                    return Card(
+                      key: const ValueKey('lista'),
+                      clipBehavior: Clip.antiAlias,
+                      child: ListView.separated(
+                        padding: EdgeInsets.zero,
+                        itemCount: faturas.length,
+                        separatorBuilder: (context, index) =>
+                            const Divider(height: 1),
+                        itemBuilder: (context, index) {
+                          final fatura = faturas[index];
+                          return ItemListaFatura(
+                            fatura: fatura,
+                            aoTocar: () =>
+                                context.push('/faturas/editar', extra: fatura),
+                          );
+                        },
+                      ),
                     );
                   },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (erro, _) => Center(child: Text(textos.errorGeneric)),
+                  loading: () => const Center(
+                    key: ValueKey('carregando'),
+                    child: CircularProgressIndicator(),
+                  ),
+                  error: (erro, _) => Center(
+                    key: const ValueKey('erro'),
+                    child: Text(textos.errorGeneric),
+                  ),
+                ),
+              ),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _EstadoVazio extends StatelessWidget {
+  const _EstadoVazio({super.key, required this.mensagem});
+
+  final String mensagem;
+
+  @override
+  Widget build(BuildContext context) {
+    final cores = Theme.of(context).colorScheme;
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.receipt_long_outlined,
+            size: 48,
+            color: cores.onSurfaceVariant,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            mensagem,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: cores.onSurfaceVariant),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

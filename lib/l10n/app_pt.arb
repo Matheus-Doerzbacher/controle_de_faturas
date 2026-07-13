@@ -19,6 +19,7 @@
   "entradaLabel": "Entrada",
   "saidaLabel": "Saída",
   "differenceLabel": "Diferença",
+  "ivaLabel": "Total de IVA (10%)",
   "addEntradaButton": "Entrada",
   "addSaidaButton": "Saída",
   "viewAllButton": "Ver tudo",
@@ -74,5 +75,13 @@
   "notificationDueTomorrowTitle": "Último dia é amanhã",
   "notificationDueTomorrowBody": "Amanhã é o último dia para regularizar as faturas do mês anterior",
   "notificationDueTodayTitle": "Último dia é hoje",
-  "notificationDueTodayBody": "Hoje é o último dia para ajustar as faturas do mês anterior"
+  "notificationDueTodayBody": "Hoje é o último dia para ajustar as faturas do mês anterior",
+
+  "changePasswordTitle": "Trocar senha",
+  "changePasswordMenuLabel": "Trocar senha",
+  "mandatoryPasswordChangeMessage": "Por segurança, defina uma nova senha antes de continuar.",
+  "newPasswordLabel": "Nova senha",
+  "confirmPasswordLabel": "Confirmar senha",
+  "passwordTooShort": "A senha precisa ter pelo menos 6 caracteres",
+  "passwordMismatch": "As senhas não coincidem"
 }
