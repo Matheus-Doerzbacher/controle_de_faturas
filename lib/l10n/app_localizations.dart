@@ -350,6 +350,18 @@ abstract class AppLocalizations {
   /// **'Esta acción no se puede deshacer.'**
   String get deleteConfirmMessage;
 
+  /// No description provided for @removePhotoConfirmTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Quitar foto?'**
+  String get removePhotoConfirmTitle;
+
+  /// No description provided for @removePhotoConfirmMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta acción no se puede deshacer.'**
+  String get removePhotoConfirmMessage;
+
   /// No description provided for @allInvoicesTitle.
   ///
   /// In es, this message translates to:

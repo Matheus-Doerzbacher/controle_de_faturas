@@ -46,6 +46,8 @@
   "pickFromGalleryOption": "Galería",
   "deleteConfirmTitle": "¿Eliminar factura?",
   "deleteConfirmMessage": "Esta acción no se puede deshacer.",
+  "removePhotoConfirmTitle": "¿Quitar foto?",
+  "removePhotoConfirmMessage": "Esta acción no se puede deshacer.",
 
   "allInvoicesTitle": "Facturas de {month}",
   "@allInvoicesTitle": {

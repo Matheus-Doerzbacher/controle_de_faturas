@@ -138,6 +138,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get deleteConfirmMessage => 'Esta ação não pode ser desfeita.';
 
   @override
+  String get removePhotoConfirmTitle => 'Remover foto?';
+
+  @override
+  String get removePhotoConfirmMessage => 'Esta ação não pode ser desfeita.';
+
+  @override
   String allInvoicesTitle(String month) {
     return 'Faturas de $month';
   }

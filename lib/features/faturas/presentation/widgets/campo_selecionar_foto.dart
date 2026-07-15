@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../l10n/app_localizations.dart';
+import 'tela_visualizar_foto_cheia.dart';
 
 /// Uma foto por fatura. No mobile oferece câmera ou galeria; no Web (sem
 /// câmera nativa acessível de forma consistente) o próprio `image_picker`
@@ -54,6 +55,29 @@ class CampoSelecionarFoto extends StatelessWidget {
     aoSelecionar(bytes);
   }
 
+  Future<void> _confirmarRemocao(BuildContext context) async {
+    final textos = AppLocalizations.of(context)!;
+    final confirmar = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(textos.removePhotoConfirmTitle),
+        content: Text(textos.removePhotoConfirmMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(textos.cancelButton),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(textos.deleteButton),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmar == true) aoRemover();
+  }
+
   @override
   Widget build(BuildContext context) {
     final textos = AppLocalizations.of(context)!;
@@ -71,18 +95,22 @@ class CampoSelecionarFoto extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.memory(
-                  bytesAtuais!,
-                  height: 160,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                child: GestureDetector(
+                  onTap: () =>
+                      TelaVisualizarFotoCheia.abrir(context, bytesAtuais!),
+                  child: Image.memory(
+                    bytesAtuais!,
+                    height: 160,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Positioned(
                 top: 4,
                 right: 4,
                 child: IconButton.filled(
-                  onPressed: aoRemover,
+                  onPressed: () => _confirmarRemocao(context),
                   tooltip: textos.removePhotoButton,
                   icon: const Icon(Icons.close),
                 ),

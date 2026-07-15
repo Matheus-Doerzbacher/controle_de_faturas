@@ -138,6 +138,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteConfirmMessage => 'Esta acción no se puede deshacer.';
 
   @override
+  String get removePhotoConfirmTitle => '¿Quitar foto?';
+
+  @override
+  String get removePhotoConfirmMessage => 'Esta acción no se puede deshacer.';
+
+  @override
   String allInvoicesTitle(String month) {
     return 'Facturas de $month';
   }

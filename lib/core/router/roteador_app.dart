@@ -86,6 +86,11 @@ final roteadorAppProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/faturas/editar',
+        // Sem extra (ex.: hot restart estando nesta tela, que não
+        // sobrevive à reinicialização do isolate Dart), volta para o
+        // início em vez de derrubar o app no `!`.
+        redirect: (context, state) =>
+            state.extra is Fatura ? null : '/inicio',
         builder: (context, state) {
           final fatura = state.extra! as Fatura;
           return TelaFormularioFatura(

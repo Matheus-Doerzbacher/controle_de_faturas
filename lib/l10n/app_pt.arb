@@ -46,6 +46,8 @@
   "pickFromGalleryOption": "Galeria",
   "deleteConfirmTitle": "Excluir fatura?",
   "deleteConfirmMessage": "Esta ação não pode ser desfeita.",
+  "removePhotoConfirmTitle": "Remover foto?",
+  "removePhotoConfirmMessage": "Esta ação não pode ser desfeita.",
 
   "allInvoicesTitle": "Faturas de {month}",
 

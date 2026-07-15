@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../application/faturas_do_mes_provider.dart';
+import 'tela_visualizar_foto_cheia.dart';
 
 /// O bucket de fotos é privado — baixamos os bytes pelo client autenticado
 /// (RLS de storage aplica sozinha) em vez de usar `Image.network` com uma
@@ -32,11 +33,14 @@ class VisualizarFotoFatura extends ConsumerWidget {
     return fotoAsync.when(
       data: (bytes) => ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.memory(
-          bytes,
-          height: altura,
-          width: double.infinity,
-          fit: BoxFit.cover,
+        child: GestureDetector(
+          onTap: () => TelaVisualizarFotoCheia.abrir(context, bytes),
+          child: Image.memory(
+            bytes,
+            height: altura,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
       loading: () => SizedBox(

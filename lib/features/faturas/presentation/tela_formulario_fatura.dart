@@ -276,6 +276,29 @@ class _TelaFormularioFaturaState extends ConsumerState<TelaFormularioFatura> {
     );
   }
 
+  Future<void> _confirmarRemocaoFoto(BuildContext context) async {
+    final textos = AppLocalizations.of(context)!;
+    final confirmar = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(textos.removePhotoConfirmTitle),
+        content: Text(textos.removePhotoConfirmMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(textos.cancelButton),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(textos.deleteButton),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmar == true) setState(() => _removerFotoExistente = true);
+  }
+
   Widget _construirSecaoFoto(BuildContext context) {
     final textos = AppLocalizations.of(context)!;
 
@@ -309,8 +332,7 @@ class _TelaFormularioFaturaState extends ConsumerState<TelaFormularioFatura> {
                 child: IconButton.filled(
                   icon: const Icon(Icons.close),
                   tooltip: textos.removePhotoButton,
-                  onPressed: () =>
-                      setState(() => _removerFotoExistente = true),
+                  onPressed: () => _confirmarRemocaoFoto(context),
                 ),
               ),
             ],
